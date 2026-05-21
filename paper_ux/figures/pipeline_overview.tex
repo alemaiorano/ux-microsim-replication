@@ -1,0 +1,28 @@
+\begin{tikzpicture}[
+  font=\small,
+  box/.style={draw, rounded corners, align=center, minimum height=14mm, minimum width=30mm},
+  arrow/.style={-{Latex[length=2mm]}, thick, shorten <=2pt, shorten >=2pt},
+  group/.style={draw=gray!60, rounded corners, inner sep=6pt}
+]
+\node[box] (inputs) {Versioned inputs\\\footnotesize prompts, personas, tasks,\\taxonomy, UI snapshot};
+\node[box, right=18mm of inputs] (llm) {LLM micro-simulation\\\footnotesize schema-constrained JSON};
+\node[box, right=18mm of llm] (agg) {Aggregate signals\\\footnotesize theme counts,\\micro-surveys};
+
+\node[box, below=14mm of llm] (proxies) {Proxy corpora\\\footnotesize reviews, support,\\OSS issues};
+\node[box, right=18mm of proxies] (align) {Alignment\\\footnotesize $W$, $J_k$, bootstrap CI};
+
+\node[box, right=18mm of agg] (outputs) {Decision artifacts\\\footnotesize backlog + summary\\CSV/JSON/\LaTeX};
+
+\begin{scope}[on background layer]
+  \node[group, fit=(inputs) (llm) (agg) (outputs)] (topgroup) {};
+  \node[group, fit=(proxies) (align)] (bottomgroup) {};
+\end{scope}
+
+\draw[arrow] (inputs.east) -- (llm.west);
+\draw[arrow] (llm.east) -- (agg.west);
+\draw[arrow] (agg.east) -- (outputs.west);
+\draw[arrow] (proxies.east) -- (align.west);
+\draw[arrow] (agg.south) -- (align.north);
+% Route around the aggregate box (avoid overlapping).
+\draw[arrow] (align.east) -| (outputs.south);
+\end{tikzpicture}

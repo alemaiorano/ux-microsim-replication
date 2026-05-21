@@ -1,0 +1,63 @@
+\subsection{Agent ablation (single-pass vs best-of-\texorpdfstring{$N$}{N} vs hybrid)}
+Following the strategies defined in Section~\ref{sec:agent-strategies}, we operationalize the research-to-product tradeoff between output quality and inference cost by ablating---that is, systematically comparing under matched conditions---three agent strategies under the same schema constraints:
+(i) single-pass (one attempt with retries), (ii) best-of-$N$ (sample $N$ candidates and select one with an LLM judge), and (iii) hybrid (try single-pass first; fall back to best-of-$N$ only when validation fails).
+We additionally enforce a lightweight taxonomy contract in the v2 prompt: the single friction point must be prefixed with a taxonomy identifier (e.g., \texttt{navigation: ...}).
+For the current paper runs, we execute the reduced ablation suites on Azure using OpenAI deployments (\texttt{gpt-4.1}, \texttt{gpt-4.1-mini}, \texttt{gpt-5.2}) with $n=60$ per condition/model. We standardize multi-candidate methods to $N=2$ as the default comparison point and include targeted ablations that stress selection behavior and the cost/quality frontier (Table~\ref{tab:agent-ablation-conditions}). All runs in this paper use the v2 simulator prompt; the selection strategy (LLM judge vs.\ judge-free heuristic) is reported as the \emph{Judge} column in Tables~\ref{tab:agent-ablation-hq} and~\ref{tab:agent-ablation-cq}.
+To reduce confounds across agent variants, we fix the sampling seed (default \texttt{seed=42}) so each run draws the same persona/journey/task sequence, and we keep model and decoding parameters matched across methods.
+For best-of-$N$, we shuffle candidate order~\cite{shi2024positionbias} before presenting them to the judge to reduce position bias.
+Under this setting, hybrid remains the practical default: it preserves structured-output compliance while reducing average LLM calls per simulation because many samples are solved in the initial single-pass attempt (Tables~\ref{tab:agent-ablation-hq} and \ref{tab:agent-ablation-cq}); Table~\ref{tab:agent-output-examples} shows representative simulator outputs for the same (persona, journey, task) under different agent strategies.
+We also evaluate a judge-free selection mode (the \emph{Auto} judge in the ablation tables) that selects among $N$ candidates using only cheap heuristics (UI token-overlap grounding, task success, and a simple consensus boost over the friction category prefix).
+We additionally support stress tests with larger candidate pools and higher candidate temperatures (more diverse generations), but keep the paper core at $N=2$ for comparability and API-budget control.
+Best-of-$N$ selection is conceptually aligned with best-of-$N$ sampling and LLM-judge paradigms used in scalable evaluation and selection settings, though such judges can exhibit systematic biases (e.g., position/verbosity)~\cite{wang2023selfconsistency,liu2023geval,zheng2023mtbench,shi2024positionbias}.
+\paragraph{Metrics.}
+We summarize agent tradeoffs using cheap, locally computed proxies:
+\emph{Calls} is the mean number of LLM calls per simulation (including judge calls when applicable), used as a cost proxy.
+\emph{Prefix ok} is the rate that the single friction point begins with a taxonomy identifier prefix.
+\emph{Quality} is a composite proxy over rates in $[0,1]$:
+$0.35\,r_{words}+0.20\,r_{steps}+0.15\,r_{HEART}+0.10\,r_{success}+0.10\,(\overline{SUS}/100)+0.10\,r_{prefix}$.
+Weights were chosen to emphasize content completeness ($r_{words}$) and structural compliance ($r_{steps}$, $r_{HEART}$).
+$r_{words}$ is 1 if all string fields (feedback, suggested fix, walkthrough steps, HEART items) contain $\leq 12$ words; this is stricter than the validation gate, which only enforces the word limit on \texttt{feedback} and \texttt{suggested\_fix}.
+\emph{Hallucination proxy} is $1-\text{grounding}$, where grounding is a token-overlap heuristic: the fraction of output tokens that also occur in the UI snapshot text (higher grounding suggests less invention under a fixed snapshot).
+The tokenizer applies a stop list that excludes short tokens and common UI terms (e.g., ``button'', ``menu'', ``screen''); see Section~\ref{sec:limitations} for the implication on reported values.
+\emph{Fabrication proxy rate} is the fraction of samples with grounding below a fixed threshold ($\tau=0.25$), where grounding is a token-overlap heuristic against the UI snapshot.
+\emph{Q/Cost} is \emph{Quality} divided by \emph{Calls}.
+\IfFileExists{paper_ux/tables/agent_ablation_conditions.tex}{\input{paper_ux/tables/agent_ablation_conditions.tex}}{}
+\IfFileExists{paper_ux/tables/agent_ablation_hq.tex}{\input{paper_ux/tables/agent_ablation_hq.tex}}{}
+\IfFileExists{paper_ux/tables/agent_ablation_cq.tex}{\input{paper_ux/tables/agent_ablation_cq.tex}}{}
+\IfFileExists{paper_ux/tables/agent_output_examples.tex}{\input{paper_ux/tables/agent_output_examples.tex}}{}
+\UXResolve{\uxparetopdf}{figures/agent_ablation_pareto.pdf}
+\ifx\uxparetopdf\empty\else
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.98\linewidth]{\uxparetopdf}
+  \caption{Cost--quality tradeoff for agent strategies. The Pareto frontier (highlighted) is the set of strategies that no other strategy beats on both cost and quality at once. Markers encode judge mode: circle=LLM judge, square=auto-selection.}
+  \label{fig:agent-ablation-pareto}
+\end{figure}
+\fi
+
+\subsection{Score-then-select judge: experimental setup}
+\label{sec:anchoring-aware-experiment}
+We instantiate the proposed score-then-select judge (Section~\ref{sec:anchoring-aware-judge}) with the same $N$, candidate temperature, and seed settings as best-of-$N$, swapping only the selection protocol. In the agent ablation tables we report $N$ explicitly: for hybrid, $N$ denotes the \emph{maximum} candidate pool used on fallback, and the effective average cost is captured by the \emph{Calls} column. For runtime and cost control across models, we run best-of-$N$ and score-then-select with $N=2$. Prompt excerpts for the simulator and both judges are provided in Appendix~(\emph{Prompt Excerpts}).
+
+\subsection{Proxy alignment (lexical vs TF-IDF vs embeddings)}
+We compute friction counts for each proxy dataset under each alignment method, then compute
+top-$k$ Jaccard and weighted-Jaccard against the simulation friction distribution.
+Unless otherwise stated, we use $k=8$, TF-IDF threshold $t=0.05$, and embedding threshold $t=0.35$ with a fixed embedding subsample of $n=200$ texts.
+\emph{Compute note:} for embedding alignment on the larger app-review proxies (\DatasetTinder{} and \DatasetGojek{}), we pre-cap the corpus at $n=10{,}000$ texts before the BGE-M3 subsample of $n=200$ kicks in; on \DatasetTwitter{} and \DatasetAmazon{} the pre-cap is not applied because the per-corpus subsample alone bounds embedding cost.
+For the LLM label evaluation on the annotated Amazon subset, we run a fixed subsample of $n=500$ for cost control (Table~\ref{tab:run-contract}).
+\IfFileExists{paper_ux/tables/run_contract.tex}{\input{paper_ux/tables/run_contract.tex}}{}
+
+\subsection{Sensitivity analysis}
+We vary top-$k$ (lexical) and similarity thresholds (TF-IDF and embeddings) to test stability and to
+avoid trivial overlap artifacts (e.g., $k$ too large).
+
+\subsection{Bootstrap confidence intervals}
+We estimate bootstrap confidence intervals for alignment metrics across multiple method--dataset pairs (lexical, TF-IDF, and embedding on the Amazon, Tinder, and Gojek proxies) to quantify variance and to test whether the single-shot point estimates of $W$ are stable under resampling.
+
+\subsection{LLM label evaluation}
+\label{sec:appstore-eval}
+We evaluate the LLM's ability to map raw review text to a fixed appstore issue taxonomy using the annotated Amazon subset as a noisy gold label. To keep the policy of the main UX simulator track consistent, this evaluation uses the same Azure-hosted provider family (\texttt{gpt-4.1}) under a single-pass, structured-output classification protocol on a fixed $n=500$ subsample. We report accuracy and macro-F1 (per-category F1 averaged with equal weight, so frequent categories do not dominate the score) against the dataset's category labels, and contrast the LLM result against cheap baselines (majority class, lexical taxonomy match, TF-IDF with logistic regression, and embeddings with logistic regression) computed on the same subsample.
+
+\subsection{Artifacts and reproducibility}
+All runs emit artifact-first outputs (CSV/JSON/LaTeX), enabling traceable iteration and paper-grade reporting.
+In particular, every table and figure in this draft is exported automatically from versioned run artifacts by a build script, so the manuscript stays in sync with the underlying experiments.

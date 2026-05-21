@@ -1,0 +1,19 @@
+# LaTeX build artifacts
+paper_ux/main.aux
+paper_ux/main.bbl
+paper_ux/main.blg
+paper_ux/main.fdb_latexmk
+paper_ux/main.fls
+paper_ux/main.listing
+paper_ux/main.log
+paper_ux/main.out
+paper_ux/main.pdf
+paper_ux/_buildcheck/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# OS / editor
+.DS_Store

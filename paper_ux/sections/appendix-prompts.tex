@@ -1,0 +1,38 @@
+\noindent
+This appendix provides short excerpts of the key prompts used in our UX micro-simulation pipeline.
+
+\subsection*{Simulation prompt (v1)}
+\begin{codebox}
+System: You are a UX research assistant. Return structured JSON only.
+Hard rules: ASCII, no PII/secrets, <=12 words per string, exactly 2 steps,
+exactly 1 friction point and 1 HEART GSM item, non-empty feedback/fix.
+\end{codebox}
+
+\subsection*{Simulation prompt (v2) --- grounding + taxonomy prefix}
+\begin{codebox}
+Hard rules (additions): Only reference UI elements in the UI snapshot text.
+Friction taxonomy: choose exactly 1 category; prefix as "<category_id>: ...".
+\end{codebox}
+
+\subsection*{Judge prompt (best-of-$N$ selection)}
+\begin{codebox}
+System: You are a strict evaluator. You receive multiple candidate JSON outputs.
+Select the best candidate. Return JSON: {"selected_index":0,"scores":[...],"rationale":"..."}.
+\end{codebox}
+
+\subsection*{Judge prompt (score-then-select)}
+\begin{codebox}
+System: You are a strict evaluator. You receive ONE candidate JSON output.
+Score independently: schema_compliance, ui_grounding, actionability, overall.
+Return JSON: {"schema_compliance":...,"ui_grounding":...,"actionability":...,"overall":...,"rationale":"..."}.
+\end{codebox}
+
+\subsection*{Appstore label prompt (LLM evaluation)}
+\begin{codebox}
+System: You are a strict routing classifier for UX friction categories.
+Return only valid JSON.
+\end{codebox}
+\begin{codebox}
+User: Given the review text, assign exactly one category from the taxonomy.
+Include a short justification.
+\end{codebox}

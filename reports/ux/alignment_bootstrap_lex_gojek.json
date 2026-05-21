@@ -1,0 +1,16 @@
+{
+  "iterations": 200,
+  "sample_size": 10000,
+  "alignment_method": "lexical",
+  "jaccard_mean": 0.7396,
+  "jaccard_ci_low": 0.6,
+  "jaccard_ci_high": 0.7778,
+  "weighted_mean": 0.0,
+  "weighted_ci_low": 0.0,
+  "weighted_ci_high": 0.0,
+  "alignment_topk": 8,
+  "simulations_locale": "all",
+  "simulations_domain": "all",
+  "tfidf_threshold": null,
+  "embedding_model": null
+}

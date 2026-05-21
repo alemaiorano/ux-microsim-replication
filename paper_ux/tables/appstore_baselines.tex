@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Cheap baselines for the annotated Appstore subset (same $n$ as Table~\ref{tab:appstore-eval}); embedding baseline uses a subset for cost.}
+\label{tab:appstore-baselines}
+\begin{tabular}{lrr}
+\toprule
+Baseline & Accuracy & Macro-F1 \\
+\midrule
+Majority & 0.432 & 0.086 \\
+Lexical taxonomy match & 0.424 & 0.366 \\
+TF-IDF + logistic regression (CV) & 0.492 & 0.146 \\
+Embedding (nomic-embed-text) + logistic regression (CV) (n=200) & 0.635 & 0.336 \\
+\bottomrule
+\end{tabular}
+\end{table}

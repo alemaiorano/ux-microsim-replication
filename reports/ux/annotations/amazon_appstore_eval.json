@@ -1,0 +1,71 @@
+{
+  "records_total": 500,
+  "records_used": 500,
+  "skipped_empty": 0,
+  "unknown_gold": 0,
+  "invalid_json": 0,
+  "accuracy": 0.518,
+  "macro_f1": 0.4252,
+  "model": "llama3.1:8b-instruct-q4_K_M",
+  "sample_n": 500,
+  "labels": [
+    "compatibility_device",
+    "functionality_features",
+    "performance_stability",
+    "security_privacy",
+    "support_responsiveness",
+    "ui_ux",
+    "other"
+  ],
+  "per_label": [
+    {
+      "label": "compatibility_device",
+      "support": 51,
+      "precision": 0.6,
+      "recall": 0.29411764705882354,
+      "f1": 0.3947368421052632
+    },
+    {
+      "label": "functionality_features",
+      "support": 216,
+      "precision": 0.5918367346938775,
+      "recall": 0.5370370370370371,
+      "f1": 0.5631067961165048
+    },
+    {
+      "label": "performance_stability",
+      "support": 136,
+      "precision": 0.7565217391304347,
+      "recall": 0.6397058823529411,
+      "f1": 0.693227091633466
+    },
+    {
+      "label": "security_privacy",
+      "support": 8,
+      "precision": 0.25,
+      "recall": 0.25,
+      "f1": 0.25
+    },
+    {
+      "label": "support_responsiveness",
+      "support": 35,
+      "precision": 0.45,
+      "recall": 0.2571428571428571,
+      "f1": 0.32727272727272727
+    },
+    {
+      "label": "ui_ux",
+      "support": 54,
+      "precision": 0.22727272727272727,
+      "recall": 0.5555555555555556,
+      "f1": 0.3225806451612903
+    },
+    {
+      "label": "other",
+      "support": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    }
+  ]
+}

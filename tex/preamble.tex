@@ -1,0 +1,32 @@
+% Shared LaTeX preamble for all papers in this repo.
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage[hypertexnames=false]{hyperref}
+\usepackage[expansion=false]{microtype}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{tcolorbox}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{needspace}
+\usepackage{xurl}
+\usepackage{pdflscape}
+
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds}
+\pgfplotsset{compat=1.18}
+\tcbuselibrary{listings,skins,breakable}
+
+\newtcblisting{codebox}{
+  listing only,
+  breakable,
+  colback=gray!5,
+  colframe=gray!60,
+  boxrule=0.4pt,
+  left=6pt,right=6pt,top=4pt,bottom=4pt,
+  listing options={basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible}
+}

@@ -1,0 +1,15 @@
+We validate simulations against multiple public proxy datasets; the record counts below are those loaded in our experiments:
+\begin{itemize}
+  \item \DatasetTinder~\cite{kaggle_tinder}: English app reviews with ratings ($\approx 664$k records).
+  \item \DatasetGojek~\cite{kaggle_gojek}: Indonesian app reviews with ratings ($\approx 1.67$M records).
+  \item \DatasetTwitter~\cite{kaggle_twitter_support}: customer support tweets ($\approx 2.81$M records; no star ratings).
+  \item Open-source software (OSS) issues proxy: GitHub issues from business-to-business (B2B) observability tools (Grafana, Prometheus, OpenTelemetry Collector, OpenTelemetry JS, Jaeger, Zipkin, Sentry), sampled for feasibility.
+  \item \DatasetAmazon~\cite{amazonlowrated2026dataset}: low-rated Amazon Appstore reviews (79{,}531 reviews after dropping empty bodies).
+  \item \DatasetAmazonAnn~\cite{amazonlowrated2026dataset}: labeled subset with issue-type categories (8{,}971 annotated reviews).
+\end{itemize}
+
+We treat these datasets as \emph{proxies} for friction themes rather than as ground truth for task outcomes.
+For the annotated Amazon subset, we additionally perform an LLM-based label evaluation (Section~\ref{sec:appstore-eval}) where the dataset's category serves as a noisy gold label for classification.
+
+For compute feasibility, some alignment variants operate on capped slices of large proxy corpora. Concretely, embedding-based alignment on \DatasetTinder{} and \DatasetGojek{} was run on a pre-cap of $n=10{,}000$ texts, while \DatasetTwitter{} and \DatasetAmazon{} were processed without the pre-cap (the BGE-M3 subsample of $n=200$ per corpus controls embedding cost in all cases).
+In all experiments, we keep locale and domain explicit (e.g., app reviews vs support conversations) to avoid overclaiming transfer.

@@ -1,0 +1,35 @@
+{
+  "sample_n": 500,
+  "labels": [
+    "compatibility_device",
+    "functionality_features",
+    "performance_stability",
+    "security_privacy",
+    "support_responsiveness",
+    "ui_ux",
+    "other"
+  ],
+  "majority": {
+    "label": "functionality_features",
+    "accuracy": 0.432,
+    "macro_f1": 0.08619313647246608
+  },
+  "lexical": {
+    "accuracy": 0.424,
+    "macro_f1": 0.3655837410349624
+  },
+  "tfidf_logreg_cv": {
+    "accuracy_mean": 0.492,
+    "macro_f1_mean": 0.14597291972574608,
+    "folds": 5
+  },
+  "ollama_embed_logreg_cv": {
+    "embedding_model": "nomic-embed-text",
+    "endpoint": "http://localhost:11434/api/embeddings",
+    "records_used": 200,
+    "records_total": 500,
+    "accuracy_mean": 0.635,
+    "macro_f1_mean": 0.3357946152805707,
+    "folds": 5
+  }
+}

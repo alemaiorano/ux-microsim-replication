@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Example outputs for the same (persona, journey, task) under different agent strategies (HQ suite; model=gpt-4.1; $n=60$).}
+\label{tab:agent-output-examples}
+\resizebox{0.98\linewidth}{!}{%
+\begin{tabular}{lp{0.46\linewidth}p{0.46\linewidth}}
+\toprule
+Setting & Friction point & Suggested fix \\
+\midrule
+Single-pass & navigation: Sulit menemukan slider threshold dengan cepat & Buat slider threshold lebih jelas atau tambahkan highlight. \\
+Best-of-2 (LLM judge) & navigation: Threshold sliders are not clearly labeled for each gate & Add clear labels above each threshold slider. \\
+Best-of-2 (auto) & navigation: Sulit menemukan slider threshold dengan cepat & Buat slider threshold lebih menonjol atau beri highlight. \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

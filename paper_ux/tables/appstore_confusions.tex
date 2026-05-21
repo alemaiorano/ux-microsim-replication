@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Most frequent label confusions in LLM classification (Amazon annotated; n=500).}
+\label{tab:appstore-confusions}
+\resizebox{0.98\linewidth}{!}{%
+\begin{tabular}{llr}
+\toprule
+Gold & Predicted & Count \\
+\midrule
+\texttt{performance\_stability} & \texttt{functionality\_features} & 30 \\
+\texttt{functionality\_features} & \texttt{other} & 27 \\
+\texttt{ui\_ux} & \texttt{functionality\_features} & 23 \\
+\texttt{compatibility\_device} & \texttt{functionality\_features} & 20 \\
+\texttt{support\_responsiveness} & \texttt{functionality\_features} & 17 \\
+\texttt{functionality\_features} & \texttt{performance\_stability} & 16 \\
+\texttt{functionality\_features} & \texttt{ui\_ux} & 12 \\
+\texttt{compatibility\_device} & \texttt{performance\_stability} & 8 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

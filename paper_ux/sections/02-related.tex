@@ -1,0 +1,28 @@
+\paragraph{Inspection-based UX evaluation.}
+Cognitive walkthroughs are a classic, theory-driven inspection method for identifying usability issues without running user studies~\cite{polson1992cognitive}.
+At scale, organizations adopt metrics frameworks such as HEART to connect product goals to measurable signals and metrics~\cite{rodden2010heart}.
+The System Usability Scale (SUS) remains a widely used, lightweight instrument for perceived usability~\cite{brooke1996sus}.
+
+\paragraph{Mining user feedback at scale.}
+App reviews and related feedback sources have been extensively studied in requirements engineering and software maintenance,
+with systematic surveys cataloging use cases and evaluation gaps~\cite{dabrowski2022review}.
+Public corpora of reviews, support conversations, and issues enable reproducible studies, but they rarely include
+task completion times or controlled experimental conditions.
+Recent datasets focus on structured taxonomies of end-user issues, including low-rated Amazon Appstore reviews with a labeled subset~\cite{amazonlowrated2026dataset}.
+
+\paragraph{LLMs as simulators and the ``human surrogate'' debate.}
+Recent work explores ``silicon samples'' and LLM-based simulation of human responses~\cite{argyle2023outofone,aher2023simulate,horton2023homosilicus}.
+In HCI, LLM-powered agents and personas have been proposed for scalable simulation and ideation~\cite{park2023generativeagents,choi2025proxona,schuller2024personas,prpa2024syntheticpersonae}.
+However, multiple studies highlight validity risks and misalignment between LLM outputs and human distributions~\cite{bisbee2024perils,amirova2024algorithmicfidelity,gao2024scylla,li2025personacatch}.
+We position our work as \emph{decision support for early iteration}, not a replacement for human studies:
+we use proxy validation to detect egregious mismatches and to guide prompt/taxonomy iteration,
+while reserving stronger paid-model calibration for the final evaluation pass.
+
+\paragraph{LLM-based evaluation and rubric reliability.}
+LLM-as-a-judge methods are increasingly used as scalable approximations to human evaluation~\cite{liu2023geval,zheng2023mtbench},
+but they can exhibit systematic biases (e.g., position and verbosity effects) and inconsistent rubric application~\cite{wang2024notfair,shi2024positionbias,stureborg2024inconsistent}.
+We therefore emphasize (i) schema-constrained outputs, (ii) decision trails tied to concrete artifacts, and (iii) small gold-labeled calibration sets when available.
+
+\paragraph{Positioning.}
+Unlike prior LLM simulation work that targets individual-level behavioral fidelity or post-hoc user-study surrogates, our contribution is a \emph{protocol} layer: a lightweight proxy-validation loop that quantifies distributional alignment between simulation outputs and public corpora, with reproducible alignment metrics, bootstrap confidence intervals, and artifact-first reporting.
+This complements existing frameworks by providing structured go/no-go signals for prompt and taxonomy iteration \emph{before} committing to expensive human studies or large-scale model calibration.

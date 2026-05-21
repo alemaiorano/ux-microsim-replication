@@ -1,0 +1,45 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Experimental conditions for agent ablations: each row is uniquely identified by the (Suite, Model, Agent, $N$, CandT, Judge, Fallback) tuple; the legacy compound condition label that encoded the same information as a single underscore-separated token is omitted for readability.}
+\label{tab:agent-ablation-conditions}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllrlllrr}
+\toprule
+Suite & Model & Agent & $N$ & CandT & Judge & Fallback & Calls & Quality \\
+\midrule
+HQ & gpt-4.1 & Single-pass & 1 & - & - & - & 1.8 & 0.545 \\
+HQ & gpt-4.1-mini & Single-pass & 1 & - & - & - & 2 & 0.418 \\
+HQ & gpt-5.2 & Single-pass & 1 & - & - & - & 2 & 0.4 \\
+HQ & gpt-4.1 & Hybrid & 2 & 0.3 & LLM & Best-of-N & 4.717 & 0.707 \\
+HQ & gpt-4.1 & Hybrid & 2 & 0.3 & Auto & Score-then-select & 4.017 & 0.689 \\
+HQ & gpt-4.1-mini & Hybrid & 2 & 0.3 & LLM & Best-of-N & 5.85 & 0.455 \\
+HQ & gpt-4.1-mini & Hybrid & 2 & 0.3 & Auto & Score-then-select & 5.7 & 0.473 \\
+HQ & gpt-5.2 & Hybrid & 2 & 0.3 & LLM & Best-of-N & 6 & 0.4 \\
+HQ & gpt-5.2 & Hybrid & 2 & 0.3 & Auto & Score-then-select & 6 & 0.4 \\
+HQ & gpt-4.1 & Best-of-N & 2 & 0.3 & LLM & - & 4.067 & 0.608 \\
+HQ & gpt-4.1 & Best-of-N & 2 & 0.3 & Auto & - & 3.717 & 0.643 \\
+HQ & gpt-4.1-mini & Best-of-N & 2 & 0.3 & LLM & - & 4.033 & 0.455 \\
+HQ & gpt-4.1-mini & Best-of-N & 2 & 0.3 & Auto & - & 3.983 & 0.455 \\
+HQ & gpt-5.2 & Best-of-N & 2 & 0.3 & LLM & - & 4 & 0.4 \\
+HQ & gpt-5.2 & Best-of-N & 2 & 0.3 & Auto & - & 4 & 0.4 \\
+\midrule
+CQ & gpt-4.1 & Single-pass & 1 & - & - & - & 1.883 & 0.526 \\
+CQ & gpt-4.1-mini & Single-pass & 1 & - & - & - & 1.983 & 0.418 \\
+CQ & gpt-5.2 & Single-pass & 1 & - & - & - & 2 & 0.4 \\
+CQ & gpt-4.1 & Hybrid & 2 & 0.7 & LLM & Best-of-N & 5.15 & 0.726 \\
+CQ & gpt-4.1 & Hybrid & 2 & 0.7 & Auto & Score-then-select & 4.483 & 0.725 \\
+CQ & gpt-4.1-mini & Hybrid & 2 & 0.7 & LLM & Best-of-N & 5.95 & 0.546 \\
+CQ & gpt-4.1-mini & Hybrid & 2 & 0.7 & Auto & Score-then-select & 5.667 & 0.5 \\
+CQ & gpt-5.2 & Hybrid & 2 & 0.7 & LLM & Best-of-N & 6 & 0.4 \\
+CQ & gpt-5.2 & Hybrid & 2 & 0.7 & Auto & Score-then-select & 6 & 0.4 \\
+CQ & gpt-4.1 & Best-of-N & 2 & 0.7 & LLM & - & 4.183 & 0.708 \\
+CQ & gpt-4.1 & Best-of-N & 2 & 0.7 & Auto & - & 3.533 & 0.726 \\
+CQ & gpt-4.1-mini & Best-of-N & 2 & 0.7 & LLM & - & 4.05 & 0.527 \\
+CQ & gpt-4.1-mini & Best-of-N & 2 & 0.7 & Auto & - & 3.883 & 0.503 \\
+CQ & gpt-5.2 & Best-of-N & 2 & 0.7 & LLM & - & 4 & 0.4 \\
+CQ & gpt-5.2 & Best-of-N & 2 & 0.7 & Auto & - & 4 & 0.4 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

@@ -1,0 +1,37 @@
+UX evaluation is costly, slow, and often deferred until a product has enough users to justify studies.
+For early-stage teams, this creates a gap: product decisions must be made under uncertainty,
+while regressions and UX friction can accumulate silently until they become expensive to unwind.
+In parallel, large language model (LLM) tooling has made it feasible to generate structured, role-conditioned feedback at scale,
+but the scientific and practical question remains: \emph{what does such synthetic feedback mean}, and how can
+we validate it without over-claiming?
+
+This paper studies a pragmatic middle ground: we use LLM-driven \emph{micro-simulations} to generate
+structured UX feedback from versioned prompts, and validate the resulting friction signals against
+multiple public \emph{proxy datasets} (app reviews, customer support tweets, open-source software issues).
+Rather than treating proxies as ground truth for task success, we treat them as noisy distributions of
+friction themes that can be compared to simulation outputs under controlled configurations.
+
+\paragraph{Research questions and hypotheses.}
+We focus on three practical questions:
+(RQ1) do simulation outputs align with friction distributions observed in public proxy corpora?
+(RQ2) which proxy-alignment method is most robust (lexical vs multilingual embeddings, and which overlap metric)?
+and (RQ3) are conclusions stable under sampling variability and prompt/taxonomy changes?
+Our main hypotheses are that embedding-based overlap will outperform lexical baselines under weighted-Jaccard (H1),
+that top-$k$ Jaccard saturates and can overstate alignment when $k$ grows (H2),
+and that aggregate alignment estimates are sufficiently stable to support iterative decision-making when reported with bootstrap intervals (H3).
+
+\paragraph{Contributions.}
+We make three contributions:
+(1) a reproducible UX micro-simulation pipeline with structured outputs and versioned inputs;
+(2) a proxy-validation protocol with alignment metrics (top-$k$ and weighted Jaccard),
+including lexical and multilingual embedding baselines; and
+(3) an artifact-first evaluation suite with bootstrap confidence intervals and error analyses, designed
+to be upgraded with stronger paid models only at the end of the iteration loop.
+
+\paragraph{Value to practitioners.}
+For product and engineering teams, the output of our pipeline is not a single ``UX score,'' but a set of actionable signals:
+(i) a ranked set of friction themes to prioritize in the backlog, (ii) a compact summary of where the current experience
+is likely to fail (by locale/domain proxy), and (iii) an auditable, versioned trail of prompts, taxonomies, and artifacts
+that makes changes explainable and reviewable.
+In other words, we turn otherwise unstructured, costly-to-collect ``user feedback'' into a reproducible iteration loop
+that can be consumed by stakeholders who need to decide \emph{what to fix next} and \emph{what risks are acceptable} in early stages.

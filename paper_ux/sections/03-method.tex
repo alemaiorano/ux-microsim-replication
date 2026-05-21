@@ -1,0 +1,88 @@
+\subsection{UX micro-simulations}
+Our pipeline generates structured feedback by sampling a persona, journey, and task, then rendering a UI-context
+snapshot (labels, metrics, and a scenario outcome) and prompting an LLM to answer as the persona.
+Each simulation emits JSON fields including:
+(i) step-by-step walkthrough, (ii) friction points mapped to a fixed taxonomy,
+(iii) sentiment and suggested fixes, and (iv) micro-survey signals---customer satisfaction (CSAT), customer effort score (CES), and net promoter score (NPS)---and SUS-like answers.
+We enforce a strict structured-output contract (schema + lightweight prompt rules) to keep outputs comparable across prompt versions and agent strategies.
+The pipeline carries two simulator prompt versions: \emph{v1} (baseline) and \emph{v2} (which adds explicit grounding rules and a friction-taxonomy prefix); all experiments in this paper use \emph{v2}, and we keep \emph{v1} only as the prior baseline for context (excerpts in Appendix).
+All prompts and input configs are versioned to ensure reproducibility.
+Figure~\ref{fig:pipeline} sketches the end-to-end workflow: versioned inputs (prompts, personas, journeys, UI snapshots, taxonomy) feed the simulator; structured outputs are scored against multiple proxy corpora via the alignment metrics defined below; tables and figures are exported directly from run artifacts.
+\UXResolve{\uxpipelinefig}{figures/pipeline_overview.tex}
+\ifx\uxpipelinefig\empty\else
+\begin{figure}[t]
+  \centering
+  \resizebox{0.98\linewidth}{!}{\input{\uxpipelinefig}}
+  \caption{Micro-simulation and proxy-validation workflow (artifact-first).}
+  \label{fig:pipeline}
+\end{figure}
+\fi
+
+\subsection{Agent strategies (single-pass, best-of-\texorpdfstring{$N$}{N}, hybrid)}
+\label{sec:agent-strategies}
+We support three practical strategies for producing schema-compliant simulation outputs under a fixed prompt and model:
+(i) \emph{single-pass} (one attempt with bounded retries),
+(ii) \emph{best-of-$N$} (sample $N$ candidates, then select one via an LLM judge), and
+(iii) \emph{hybrid} (attempt single-pass first; fall back to best-of-$N$ only on validation failure).
+We additionally include a fourth strategy, \emph{score-then-select} (Section~\ref{sec:anchoring-aware-judge}), which scores candidates independently before picking the best one.
+We use these four names consistently throughout the paper, including the table columns.
+We report quality--cost tradeoffs from the agent ablation experiments in Section~\ref{sec:anchoring-aware-experiment} (Tables~\ref{tab:agent-ablation-hq} and \ref{tab:agent-ablation-cq}).
+
+\subsection{Proposed: score-then-select judge}
+\label{sec:anchoring-aware-judge}
+\textbf{Motivation.} Both human and LLM-mediated evaluation pipelines can exhibit anchoring and order effects, where early impressions disproportionately shape later judgments~\cite{tversky1974judgment,shi2024positionbias}. For example, AgentReview discusses anchoring as a plausible mechanism for why later evidence may not overturn initial ratings in multi-agent peer review settings~\cite{jin2024agentreview}. This motivates a stricter separation between \emph{generation} and \emph{selection} in best-of-$N$ settings.
+
+\paragraph{Method.}
+Given $N$ candidate simulation outputs (same inputs, different sampling), we score candidates \emph{independently} using a fixed rubric, without showing the judge multiple candidates in the same prompt. For each candidate $i$, the judge returns a small set of scalar rubric scores (e.g., schema compliance, UI-grounding, and clarity), plus a short justification. We then select the winning candidate deterministically (e.g., by weighted sum of rubric scores), and optionally run a tie-break on the top-$2$ candidates with randomized order and a win-by-both-orders rule to reduce position bias~\cite{zheng2023mtbench,shi2024positionbias}. This ``score-then-select'' design is intended to reduce anchoring compared to direct pairwise comparison or multi-candidate ranking in a single context window~\cite{tversky1974judgment}, echoing the concern raised in AgentReview that early reviewer impressions can dominate later evidence and anchor decisions~\cite{jin2024agentreview}. In a cost-sensitive setting, this can be combined with our hybrid gating: only invoke candidate generation and judging when single-pass fails validation or falls below a threshold on cheap heuristics (e.g., prefix and grounding proxies).
+
+\paragraph{Selection protocol (what the judge sees).}
+In best-of-$N$, the judge receives all candidates together (with randomized order) and returns the index of the one it picks. In score-then-select, the judge sees one candidate at a time, returns rubric scores, and selection is $\arg\max_i(\text{overall}_i)$.
+\begin{quote}\footnotesize\ttfamily
+best-of-N: candidates\_json=[cand\_a,cand\_b] $\rightarrow$ selected\_index \\
+score-then-select: candidate\_json=cand\_i $\rightarrow$ overall\_i; select argmax
+\end{quote}
+This makes the selection protocol explicit and reduces ambiguity about potential cross-candidate anchoring.
+
+\subsection{Friction taxonomy and domain weighting}
+We use a fixed friction taxonomy (e.g., latency, errors, navigation, configuration, traceability) with optional domain-specific weights.
+When validating against proxy datasets, we apply simple domain stopwords and weights to reduce spurious keyword matches.
+In practice, this means (i) filtering common non-informative tokens (e.g., generic ``app'' terms in reviews) and
+(ii) optionally up-weighting categories that are expected to dominate a proxy (e.g., reliability and latency for observability tools),
+while keeping the taxonomy and weighting rules versioned and explicit.
+
+\subsection{Proxy validation and alignment metrics}
+Because public datasets rarely provide task success, we evaluate \emph{theme alignment} between simulation frictions
+and proxy frictions computed from text corpora.
+Given simulated friction counts $S$ and proxy friction counts $P$ over a shared taxonomy:
+
+\paragraph{Top-$k$ Jaccard.}
+We take the top-$k$ categories of each distribution, $Top_k(S)$ and $Top_k(P)$, and compute:
+\[
+J_k = \frac{|Top_k(S) \cap Top_k(P)|}{|Top_k(S) \cup Top_k(P)|}.
+\]
+We treat $J_k$ as a coarse, human-auditable signal; when $k$ is large relative to the taxonomy size, $J_k$ can become artificially high.
+
+\paragraph{Weighted-Jaccard.}
+We compute a distributional overlap:
+\[
+W = \frac{\sum_i \min(S_i, P_i)}{\sum_i \max(S_i, P_i)}.
+\]
+We interpret $W \in [0, 1]$ as the fraction of shared ``mass'' between two discrete distributions, where 1.0 indicates identical category distributions.
+
+\paragraph{Alignment methods.}
+We compare:
+\MethodLex: keyword and phrase matching;
+\MethodTFIDF: a similarity baseline based on term frequency--inverse document frequency (a standard weighting that downplays common words) for assigning each text to a single best-matching category if above a threshold; and
+\MethodEmbed: multilingual embedding similarity using a local embedding model (BGE-M3 via Ollama) with a similarity threshold.
+To keep local compute feasible, embedding alignment optionally uses a fixed subsample size (we use $n=200$ per corpus unless noted).
+
+\subsection{Uncertainty estimation}
+We report bootstrap confidence intervals---ranges obtained by repeatedly resampling the data with replacement---for alignment metrics, to quantify how much each metric would vary under sampling.
+
+\subsection{Assumptions and claims (scope)}
+We make three bounded claims:
+(C1) micro-simulations can produce structured friction signals that are useful for early-stage iteration;
+(C2) proxy alignment can detect \emph{egregious} mismatches between simulated and observed friction distributions; and
+(C3) embedding-based alignment tends to better match our taxonomy than purely lexical baselines under the same protocol \emph{in single-shot point estimates}, especially on our primary proxies; we treat the bootstrap stability of the embedding $W$ statistic as a separate, empirically tested question (Section~\ref{sec:results-bootstrap}).
+
+We explicitly do \emph{not} claim that simulated outputs match human behavior at the individual level, nor that proxy alignment implies task success or user preference.

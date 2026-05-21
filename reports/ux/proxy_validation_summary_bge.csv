@@ -1,0 +1,4 @@
+dataset,total_records,avg_rating,sentiment_positive_rate,sentiment_negative_rate,alignment_jaccard,alignment_weighted_jaccard,alignment_method,embedding_model,weights_domain
+proxy_validation_gojek_bge,10000,3.659,0.038,0.009,0.25,0.128,embedding,bge-m3,app_reviews
+proxy_validation_tinder_bge,10000,2.517,0.203,0.041,0.111,0.087,embedding,bge-m3,app_reviews
+proxy_validation_twitter_bge,10000,n/a,0.057,0.023,0.429,0.123,embedding,bge-m3,support_tweets

@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Top examples flagged as fabricated by an adversarial judge (4 representative cases, HQ ablation; the eval only emits items where unsupported spans are detected, so all rows are positive cases by construction).}
+\label{tab:fabrication-examples}
+\begin{tabular}{p{0.22\linewidth}rp{0.20\linewidth}p{0.42\linewidth}}
+\toprule
+Setting & Conf. & Friction & Unsupported span / rationale \\
+\midrule
+Hybrid (best-of-$N$ fallback, LLM judge) & 0.8 & navigation: threshold sliders unclear & span: Thresholds could be more intuitive. | Claims about UI elements (threshold sliders) are not supported by the UI snapshot text. \\
+Best-of-$N$ (LLM judge) & 0.8 & navigation: unclear threshold sliders & span: friction-point: navigation: unclear threshold sliders | Claimed friction point and step 1 friction are supported by the UI snapshot, but the suggested fix is not. The UI snapshot shows thresh... \\
+Best-of-$N$ (LLM judge) & 0.8 & navigation: falta de informacion sobre el sistema & span: falta de informacion sobre el sistema | The UI snapshot does not contain information about the suggested fixes or friction points. The sentiment analysis is also neutral, which contradicts th... \\
+Hybrid (score-then-select, auto judge) & 0.8 & navigation: falta de contexto para entender a politica & span: falta de contexto para entender a politica | Claims about suggested fixes and friction points are not supported by the UI snapshot text. \\
+\bottomrule
+\end{tabular}
+\end{table}

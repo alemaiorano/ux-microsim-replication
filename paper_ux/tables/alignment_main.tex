@@ -1,0 +1,24 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Proxy alignment summary (top-$k$ Jaccard and weighted-Jaccard). For embedding alignment, we embed a subsample of $n=200$ texts for local compute; on large app-review corpora, we additionally cap the proxy slice at $n=10{,}000$ texts.}
+\label{tab:alignment-main}
+\begin{tabular}{llrrr}
+\toprule
+Proxy & Method & $k$ & $J_k$ & $W$ \\
+\midrule
+\DatasetTinder & \MethodLex & 8 & 0.6 & 0.001 \\
+\DatasetTinder & \MethodEmbed & 8 & 0.6 & 0.087 \\
+\DatasetGojek & \MethodLex & 8 & 0.6 & 0 \\
+\DatasetGojek & \MethodEmbed & 8 & 1 & 0.128 \\
+\DatasetTwitter & \MethodLex & 8 & 0.6 & 0 \\
+\DatasetTwitter & \MethodEmbed & 8 & 0.778 & 0.123 \\
+\DatasetAmazon & \MethodLex & 8 & 0.6 & 0.009 \\
+\DatasetAmazon & \MethodTFIDF & 8 & 0.6 & 0.001 \\
+\DatasetAmazon & \MethodEmbed & 8 & 0.778 & 0.119 \\
+\DatasetAmazonAnn & \MethodLex & 8 & 0.6 & 0.013 \\
+\DatasetAmazonAnn & \MethodTFIDF & 8 & 0.778 & 0.003 \\
+\DatasetAmazonAnn & \MethodEmbed & 8 & 0.778 & 0.061 \\
+\bottomrule
+\end{tabular}
+\end{table}

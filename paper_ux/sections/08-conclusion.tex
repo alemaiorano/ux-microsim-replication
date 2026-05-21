@@ -1,0 +1,27 @@
+We presented a reproducible UX simulation pipeline and proxy-validation protocol
+that compares simulated friction signals against multiple public corpora using two complementary alignment metrics (top-$k$ Jaccard and weighted-Jaccard).
+
+\paragraph{Summary of findings.}
+Across six proxy datasets (app reviews, support tweets, and OSS issues), embedding-based alignment (BGE-M3) consistently yielded higher weighted-Jaccard than lexical or TF-IDF baselines on app-review and support-tweet proxies (H1 supported; e.g., Gojek: $W=0.128$ vs $0.000$ lexical), with Sentry OSS issues as a notable exception where product-specific vocabulary favors lexical matching.
+Top-$k$ Jaccard reached 1.0 at $k=10$ while $W$ remained at 0.017 on the Amazon annotated proxy, confirming that $J_k$ overstates alignment at large $k$ (H2 supported) and motivating $W$ as the primary signal.
+Bootstrap intervals cover $8$ method--dataset pairs. Lexical and TF-IDF baselines are stable ($W$ on Amazon low-rated: $[0.010, 0.011]$, others pinned at $0$). Embedding (BGE-M3) bootstraps at $n=200$ collapse $W$ to $0$ on all three proxies we ran (Amazon, Tinder, Gojek), contradicting the single-shot point estimates of $0.119$, $0.087$, and $0.128$ respectively. H3 is therefore partially supported (lexical/TF-IDF and embedding $J_k$ are stable; embedding $W$ at this subsample size is systematically not), and we recommend bootstrap CIs alongside any embedding-based alignment number before it is used as a decision target. Studying the dependence on subsample size, anchor construction, and similarity threshold is left for future work.
+In the agent ablation, \texttt{gpt-4.1} with hybrid strategy achieved the highest quality (HQ suite: $0.707$ with LLM judge; CQ suite: $0.726$, tied between hybrid-auto and best-of-$N$-auto after a confirming rerun of the v2 LLM-judge conditions whose initial batch had been transiently degenerate), while \texttt{gpt-5.2} collapsed across every condition we ran and reproduced that collapse across batches---illustrating that model-level breakdowns must be separated from transient API artifacts, and that model- and condition-labeled ablation reporting (with reruns when batch-level degeneration is suspected) is essential.
+
+\paragraph{Limitations recap.}
+Proxy corpora are noisy and do not measure task success; the grounding heuristic is sensitive to stop-list choices; and although we now report bootstrap CIs across $8$ method--dataset pairs, the embedding configuration is exercised at a single subsample size and a single anchor construction, so the H3 caveat on embedding stability is itself bounded by those choices.
+We treat all outputs as directional signals for early-stage iteration, not as claims about individual user behavior.
+
+\paragraph{Future work.}
+We plan to:
+\begin{itemize}
+    \item expand locale and domain matching and add adversarial negative-control proxies;
+    \item run final calibration with stronger paid models at scale;
+    \item connect proxy alignment to downstream product decisions and release gating;
+    \item report bootstrap CIs across alignment methods and datasets.
+\end{itemize}
+
+\paragraph{Product perspective.}
+From a consumer standpoint, the key deliverable is a repeatable ``UX check'' that can be run before and after changes,
+producing a small set of prioritized friction themes, confidence bounds, and traceable artifacts.
+This supports better decision-making under uncertainty: teams can focus on the highest-leverage issues, communicate
+risk clearly across stakeholders, and avoid shipping changes that introduce new friction patterns without noticing.

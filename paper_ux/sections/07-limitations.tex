@@ -1,0 +1,31 @@
+\label{sec:limitations}
+Our approach has important limitations and validity threats.
+\paragraph{Construct validity.}
+Proxy corpora are noisy mixtures of domains and user populations; alignment should not be interpreted as task success, satisfaction, or usability.
+Our overlap metrics measure \emph{distributional similarity of friction themes}, not causal impact.
+We partially mitigate this by reporting multiple metrics, sensitivity analyses, and confidence intervals, but the construct remains approximate.
+
+\paragraph{Internal validity.}
+LLM simulations can suffer from prompt framing bias and ``algorithmic fidelity'' failures~\cite{amirova2024algorithmicfidelity,gao2024scylla}.
+Persona prompts may introduce systematic biases and unrealistic behavior~\cite{li2025personacatch,prpa2024syntheticpersonae}, and prior work shows that
+LLM-generated ``synthetic survey'' distributions can diverge from human distributions~\cite{bisbee2024perils}.
+We therefore treat simulations as \emph{decision support} and emphasize versioned prompts, schema-constrained outputs, and artifact trails for auditability.
+
+\paragraph{External validity.}
+Results depend on the chosen taxonomy, locales, and proxy sources.
+While adding OSS issues broadens evidence toward B2B tooling, it remains an indirect proxy and may over-represent power users or issue reporters.
+Future work should evaluate domain-specific proxies and compare against controlled studies when available.
+
+\paragraph{Evaluation validity.}
+The annotated Amazon subset provides only a weak gold label for category classification and may encode annotator bias.
+Even when LLMs are used as evaluators or automatic labelers, they may be biased and inconsistent in rubric application~\cite{liu2023geval,zheng2023mtbench,wang2024notfair}.
+We use the labeled subset primarily for calibration and error analysis, not as a definitive performance target.
+
+\paragraph{Grounding heuristic calibration.}
+The hallucination proxy ($1-\text{grounding}$) and fabrication proxy rate are computed using a token-overlap heuristic that applies a stop list removing short tokens and common UI terms (e.g., ``button'', ``menu'', ``tab'', ``screen'', ``field'').
+Because simulation outputs frequently reference these same UI elements using the same vocabulary, the stop list systematically underestimates true token overlap, yielding hallucination proxy values near 1.0 across all conditions.
+These values therefore reflect a conservative lower bound on grounding, not evidence that nearly all output tokens are fabricated; teams should recalibrate the stop list for their UI vocabulary before using this proxy as a go/no-go gate.
+The proxy remains useful for \emph{relative} comparisons across agent strategies and prompt versions, where the stop-list bias is consistent.
+
+\paragraph{Cost and model choice.}
+Our agent ablation uses Azure-hosted OpenAI models (\texttt{gpt-4.1}, \texttt{gpt-4.1-mini}, \texttt{gpt-5.2}) and the LLM label evaluation uses \texttt{gpt-4.1}; the alignment metrics additionally use a local embedding model (BGE-M3 via Ollama). Stronger paid-model calibration of the alignment pipeline at scale, and a broader sweep over embedding model and subsample size, are deferred to future work to control cost and to avoid iterative overfitting.

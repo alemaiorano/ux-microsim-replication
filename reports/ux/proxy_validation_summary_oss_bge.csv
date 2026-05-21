@@ -1,0 +1,8 @@
+dataset,total_records,avg_rating,sentiment_positive_rate,sentiment_negative_rate,alignment_jaccard,alignment_weighted_jaccard,alignment_method,embedding_model,weights_domain
+proxy_validation_getsentry__sentry_bge,50,n/a,0.02,0.08,0.25,0.098,embedding,bge-m3,app_reviews
+proxy_validation_grafana_bge,50,n/a,0.02,0.04,0.429,0.271,embedding,bge-m3,app_reviews
+proxy_validation_jaegertracing__jaeger_bge,50,n/a,0,0.04,0.25,0.151,embedding,bge-m3,app_reviews
+proxy_validation_open-telemetry__opentelemetry-collector_bge,50,n/a,0,0.04,0.429,0.232,embedding,bge-m3,app_reviews
+proxy_validation_open-telemetry__opentelemetry-js_bge,50,n/a,0.02,0.02,0.25,0.261,embedding,bge-m3,app_reviews
+proxy_validation_openzipkin__zipkin_bge,50,n/a,0,0.16,0.25,0.186,embedding,bge-m3,app_reviews
+proxy_validation_prometheus_bge,50,n/a,0,0.08,0.429,0.24,embedding,bge-m3,app_reviews

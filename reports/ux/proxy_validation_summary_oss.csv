@@ -1,0 +1,5 @@
+dataset,total_records,avg_rating,sentiment_positive_rate,sentiment_negative_rate,alignment_jaccard,alignment_weighted_jaccard,alignment_method,embedding_model,weights_domain
+proxy_validation_grafana_bge,50,n/a,0.02,0.04,0.429,0.271,embedding,bge-m3,app_reviews
+proxy_validation_grafana_lex,50,n/a,0.02,0.04,0.25,0.105,lexical,n/a,app_reviews
+proxy_validation_prometheus_bge,50,n/a,0,0.08,0.429,0.24,embedding,bge-m3,app_reviews
+proxy_validation_prometheus_lex,50,n/a,0,0.08,0.429,0.112,lexical,n/a,app_reviews

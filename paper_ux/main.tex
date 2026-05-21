@@ -1,0 +1,102 @@
+\documentclass[10pt]{article}
+
+\input{../tex/preamble.tex}
+
+\newcommand{\DatasetTinder}{\textsc{Tinder (Google Play)}}
+\newcommand{\DatasetGojek}{\textsc{Gojek (Google Play)}}
+\newcommand{\DatasetTwitter}{\textsc{Customer Support on Twitter}}
+\newcommand{\DatasetAmazon}{\textsc{Amazon Appstore (Low-rated)}}
+\newcommand{\DatasetAmazonAnn}{\textsc{Amazon Appstore (Annotated)}}
+
+\newcommand{\MethodLex}{\textsc{Lexical}}
+\newcommand{\MethodTFIDF}{\textsc{TF-IDF}}
+\newcommand{\MethodEmbed}{\textsc{Embedding}}
+
+% Resolve artifact paths whether compiling from repo root or from paper_ux/.
+% Usage: \UXResolve{\myfile}{figures/foo.pdf} then test \ifx\myfile\empty ... \fi
+\newcommand{\UXResolve}[2]{%
+  \def#1{}%
+  \IfFileExists{#2}{\def#1{#2}}{\IfFileExists{paper_ux/#2}{\def#1{paper_ux/#2}}{}}%
+}
+
+\title{Proxy-Validated LLM UX Micro-Simulations: An Artifact-First Protocol for Early-Stage Decision Support}
+\author{Alexandre Cristov\~ao Maiorano\\Lumytics\\alexandre@lumytics.com}
+\date{}
+
+\begin{document}
+% Allow LaTeX a small emergency stretch to break lines that contain long
+% unbreakable tokens (\texttt with underscores, run IDs); avoids overfull hboxes
+% without resorting to \sloppy globally.
+\emergencystretch=2em
+\maketitle
+
+\begin{abstract}
+Early-stage teams often lack users, time, and budget to run repeated UX studies,
+yet still need decision-oriented signals to iterate safely.
+We study an LLM-driven \emph{UX micro-simulation} pipeline that generates structured
+customer-experience feedback (walkthrough steps, friction points, micro-survey signals)
+from versioned prompts, personas, tasks, and UI snapshots.
+Because public usability datasets with task outcomes are scarce, we validate simulated
+friction themes using multiple public \emph{proxy} corpora (app reviews, support tweets,
+and open-source software issues). We propose a lightweight proxy-validation protocol with two alignment metrics---top-$k$ Jaccard and distributional weighted-Jaccard ($W$)---and compare lexical, TF-IDF, and multilingual embedding baselines across six proxy datasets.
+Embedding-based alignment yields higher $W$ than lexical baselines on primary app-review and support-tweet proxies (e.g., $W{=}0.128$ vs $0.000$ on Gojek), while top-$k$ Jaccard is shown to overstate alignment at large $k$.
+We ablate four agent strategies (single-pass, best-of-$N$, hybrid, and a proposed \emph{score-then-select} judge) across Azure OpenAI deployments and report bootstrap confidence intervals over $8$ method--dataset pairs; these intervals reveal that the embedding $W$ point estimate is systematically unstable under resampling at our subsample size.
+We also provide a failure-mode analysis of grounding and fabrication proxies, with documented calibration caveats and worked examples of outputs flagged as fabricated by an adversarial judge.
+Our artifact-first pipeline produces reproducible tables and figures from versioned run
+artifacts, supporting iterative prompt and taxonomy refinement before final paid-model
+calibration.
+\end{abstract}
+
+\section{Introduction}
+\input{paper_ux/sections/01-introduction}
+
+\section{Background and Related Work}
+\input{paper_ux/sections/02-related}
+
+\section{Method}
+\input{paper_ux/sections/03-method}
+
+\section{Datasets and Proxies}
+\input{paper_ux/sections/04-datasets}
+
+\section{Experiments}
+\input{paper_ux/sections/05-experiments}
+
+\section{Results}
+\input{paper_ux/sections/06-results}
+
+\section{Limitations and Threats to Validity}
+\input{paper_ux/sections/07-limitations}
+
+\section{Conclusion}
+\input{paper_ux/sections/08-conclusion}
+
+\FloatBarrier
+\appendix
+\section{Additional Tables}
+\IfFileExists{paper_ux/tables/alignment_sensitivity.tex}{\input{paper_ux/tables/alignment_sensitivity.tex}}{}
+
+\section{Friction Taxonomy}
+Table~\ref{tab:friction-taxonomy} lists the full set of friction categories used in this paper, their default weights, and a truncated set of representative keywords. The complete keyword lists (including Portuguese, Spanish, and Indonesian variants used for multilingual proxies) and the domain-specific weight overrides are kept in the versioned taxonomy configuration.
+\IfFileExists{paper_ux/tables/friction_taxonomy.tex}{\input{paper_ux/tables/friction_taxonomy.tex}}{}
+
+\section{Prompt Excerpts}
+\input{paper_ux/sections/appendix-prompts}
+
+\section*{Acknowledgments and AI Tools Disclosure}
+This research leveraged AI-assisted tools to support code development and manuscript preparation, under full human oversight and accountability. The following tools were used:
+\begin{itemize}
+    \item \textbf{Language models:} OpenAI Codex (GPT-5 family), Anthropic Claude Code (Opus/Sonnet), and Google Gemini CLI were used for code drafting/review and language refinement of author-written text.
+    \item \textbf{Web search:} MCP Tavily integration was used to support literature discovery and fact-checking.
+\end{itemize}
+All scientific arguments, empirical methodology, statistical analysis, research questions, and conclusions were conceived, developed, and validated by the authors. AI assistance was limited to code drafting/review and language refinement; it was not used to generate or alter experimental data, metrics, or conclusions. Authors reviewed and validated all AI-assisted outputs before inclusion. AI systems were not listed as authors. No generative-AI artwork or figures were used in the manuscript.
+
+\paragraph{Data and code availability.}
+The replication package is publicly available at \url{https://github.com/alemaiorano/ux-microsim-replication}. It provides the paper sources, the versioned run artifacts, and the export scripts that regenerate every table and figure, so that all reported results can be independently verified. The simulation engine and its prompt and configuration files are not redistributed; representative prompt excerpts are given in the appendix.
+
+{\sloppy\hbadness=2000\emergencystretch=2em\Urlmuskip=0mu plus 2mu\relax
+\bibliographystyle{plain}
+\bibliography{paper_ux/references}
+}
+
+\end{document}

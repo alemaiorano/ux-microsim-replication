@@ -1,0 +1,29 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Agent ablation (cost-quality focus).}
+\label{tab:agent-ablation-cq}
+\resizebox{0.98\linewidth}{!}{%
+\begin{tabular}{llllrrrrrrr}
+\toprule
+Model & Agent & Judge & Fallback & $N$ & Prefix ok & Calls & Quality & Q/Cost & Hall.\ proxy & Fab.\ proxy \\
+\midrule
+gpt-4.1 & Single-pass & - & - & 1 & 0.233 & 1.883 & 0.526 & 0.28 & 0.963 & 0.983 \\
+gpt-4.1 & Hybrid & Auto & Score-then-select & 2 & 0.6 & 4.483 & 0.725 & 0.162 & 0.925 & 0.983 \\
+gpt-4.1 & Hybrid & LLM & Best-of-N & 2 & 0.6 & 5.15 & 0.726 & 0.141 & 0.93 & 0.983 \\
+gpt-4.1 & Best-of-N & Auto & - & 2 & 0.6 & 3.533 & 0.726 & 0.205 & 0.928 & 1 \\
+gpt-4.1 & Best-of-N & LLM & - & 2 & 0.567 & 4.183 & 0.708 & 0.169 & 0.936 & 1 \\
+gpt-4.1-mini & Single-pass & - & - & 1 & 0.033 & 1.983 & 0.418 & 0.211 & 0.995 & 1 \\
+gpt-4.1-mini & Hybrid & Auto & Score-then-select & 2 & 0.183 & 5.667 & 0.5 & 0.088 & 0.975 & 0.983 \\
+gpt-4.1-mini & Hybrid & LLM & Best-of-N & 2 & 0.267 & 5.95 & 0.546 & 0.092 & 0.961 & 1 \\
+gpt-4.1-mini & Best-of-N & Auto & - & 2 & 0.2 & 3.883 & 0.503 & 0.13 & 0.975 & 1 \\
+gpt-4.1-mini & Best-of-N & LLM & - & 2 & 0.233 & 4.05 & 0.527 & 0.13 & 0.966 & 0.967 \\
+gpt-5.2 & Single-pass & - & - & 1 & 0 & 2 & 0.4 & 0.2 & 1 & 1 \\
+gpt-5.2 & Hybrid & Auto & Score-then-select & 2 & 0 & 6 & 0.4 & 0.067 & 1 & 1 \\
+gpt-5.2 & Hybrid & LLM & Best-of-N & 2 & 0 & 6 & 0.4 & 0.067 & 1 & 1 \\
+gpt-5.2 & Best-of-N & Auto & - & 2 & 0 & 4 & 0.4 & 0.1 & 1 & 1 \\
+gpt-5.2 & Best-of-N & LLM & - & 2 & 0 & 4 & 0.4 & 0.1 & 1 & 1 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

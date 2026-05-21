@@ -1,0 +1,6 @@
+dataset,total_records,avg_rating,sentiment_positive_rate,sentiment_negative_rate,alignment_jaccard,alignment_weighted_jaccard,alignment_method,embedding_model,weights_domain
+proxy_validation_amazon_low_rated,79531,3.37,0.322,0.032,0.6,0.009,lexical,n/a,app_reviews
+proxy_validation_amazon_low_rated_annotated,8971,1.237,0.157,0.083,0.6,0.013,lexical,n/a,app_reviews
+proxy_validation_gojek,1670237,4.112,0.061,0.007,0.6,0,lexical,n/a,app_reviews
+proxy_validation_tinder,664222,2.854,0.209,0.045,0.6,0.001,lexical,n/a,app_reviews
+proxy_validation_twitter,2811774,n/a,0.058,0.027,0.6,0,lexical,n/a,support_tweets

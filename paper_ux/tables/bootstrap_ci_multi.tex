@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Bootstrap confidence intervals for alignment metrics across method--dataset pairs (200 iterations for lexical/TF-IDF, 50 for embedding; bootstrap resample size noted as $n$).}
+\label{tab:bootstrap-ci-multi}
+\resizebox{0.98\linewidth}{!}{%
+\begin{tabular}{llrrrrr}
+\toprule
+Dataset & Method & $n$ & $J_k$ mean & $J_k$ 95\% CI & $W$ mean & $W$ 95\% CI \\
+\midrule
+\DatasetAmazon & \MethodLex & 79531 & 0.601 & [0.6, 0.6] & 0.0107 & [0.0104, 0.0112] \\
+\DatasetAmazon & \MethodTFIDF & 10000 & 0.6 & [0.6, 0.6] & 0 & [0, 0] \\
+\DatasetAmazonAnn & \MethodTFIDF & 8971 & 0.6 & [0.6, 0.6] & 0 & [0, 0] \\
+\DatasetAmazon & \MethodEmbed & 200 & 0.804 & [0.778, 1] & 0 & [0, 0] \\
+\DatasetTinder & \MethodLex & 10000 & 0.764 & [0.6, 0.778] & 0 & [0, 0] \\
+\DatasetTinder & \MethodEmbed & 200 & 0.782 & [0.778, 0.778] & 0 & [0, 0] \\
+\DatasetGojek & \MethodLex & 10000 & 0.74 & [0.6, 0.778] & 0 & [0, 0] \\
+\DatasetGojek & \MethodEmbed & 200 & 0.774 & [0.778, 0.778] & 0 & [0, 0] \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

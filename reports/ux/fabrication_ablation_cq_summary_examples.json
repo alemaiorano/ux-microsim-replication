@@ -1,0 +1,158 @@
+[
+  {
+    "run_id": "ablation_ux_cq_v2_hybrid_n2_t07_20260127_121131",
+    "simulation_id": "ux_sim_20260127_154050_0010",
+    "fabricated": true,
+    "confidence": 0.8,
+    "unsupported_spans": [
+      "Threshold sliders could be more intuitive.",
+      "Add tooltips or clear labels for thresholds"
+    ],
+    "rationale": "Claims about UI elements are supported by the snapshot, but some phrases are too vague to be considered fabricated. The suggested fixes are also supported as th",
+    "friction_points": [
+      "navigation: unclear threshold sliders"
+    ],
+    "feedback": "Threshold sliders could be more intuitive.",
+    "suggested_fix": "Add tooltips or clear labels for thresholds"
+  },
+  {
+    "run_id": "ablation_ux_cq_v2_hybrid_n2_t07_20260127_121131",
+    "simulation_id": "ux_sim_20260127_154050_0004",
+    "fabricated": true,
+    "confidence": 0.5,
+    "unsupported_spans": [
+      "friction_point: navigation: Insufficient dataset filtering",
+      "step_1_observed: Only one run option displayed"
+    ],
+    "rationale": "Insufficient dataset filtering is not supported by the UI snapshot text.",
+    "friction_points": [
+      "navigation: Insufficient dataset filtering"
+    ],
+    "feedback": "Dataset filtering could be improved with additional filters.",
+    "suggested_fix": "Add more filter options for datasets."
+  },
+  {
+    "run_id": "ablation_ux_cq_v2_single_20260127_121131",
+    "simulation_id": "ux_sim_20260127_151131_0015",
+    "fabricated": true,
+    "confidence": 1.0,
+    "unsupported_spans": [
+      "sentiment: neutral"
+    ],
+    "rationale": "No claim about sentiment is supported by the UI snapshot.",
+    "friction_points": [],
+    "feedback": "",
+    "suggested_fix": ""
+  },
+  {
+    "run_id": "ablation_ux_cq_v2_single_20260127_121131",
+    "simulation_id": "ux_sim_20260127_151131_0016",
+    "fabricated": true,
+    "confidence": 0.5,
+    "unsupported_spans": [
+      "friction_point: navigation: difficulty in selecting baseline run",
+      "step_1_friction: navigation: difficulty in selecting baseline run"
+    ],
+    "rationale": "Claim of friction point is supported by UI snapshot, but 'short phrase' is not a clear indication of what the claim is referring to.",
+    "friction_points": [
+      "navigation: difficulty in selecting baseline run"
+    ],
+    "feedback": "Suggested fix: Improve UI for selecting baseline runs.",
+    "suggested_fix": "Improve UI for selecting baseline runs."
+  },
+  {
+    "run_id": "ablation_ux_cq_v2_wts_n2_t07_20260127_121131",
+    "simulation_id": "ux_sim_20260127_164315_0031",
+    "fabricated": true,
+    "confidence": 0.8,
+    "unsupported_spans": [
+      "friction_point: navigation: Insufficient filtering options",
+      "step_1_friction: navigation: Insufficient filtering options"
+    ],
+    "rationale": "Insufficient filtering options are mentioned in two places, but the UI snapshot shows a dataset selector and filters for top-k.",
+    "friction_points": [
+      "navigation: Insufficient filtering options"
+    ],
+    "feedback": "Need better filters for dataset and top-k.",
+    "suggested_fix": "Add more filter options, including 'all' and 'none'."
+  },
+  {
+    "run_id": "ablation_ux_cq_v2_wts_n2_t07_20260127_121131",
+    "simulation_id": "ux_sim_20260127_164315_0006",
+    "fabricated": true,
+    "confidence": 0.5,
+    "unsupported_spans": [
+      "No regressions detected",
+      "F\u00e1cil de configurar los umbrales de la pol\u00edtica"
+    ],
+    "rationale": "Some claims are not supported by the UI snapshot text, but a few phrases match exactly.",
+    "friction_points": [
+      "navigation: No regressions detected"
+    ],
+    "feedback": "F\u00e1cil de configurar los umbrales de la pol\u00edtica",
+    "suggested_fix": "A\u00f1adir una nota de advertencia al mensaje del usuario"
+  },
+  {
+    "run_id": "ablation_ux_cq_v3_hybrid_sts_auto_n2_t07_20260127_121131",
+    "simulation_id": "ux_sim_20260127_183811_0019",
+    "fabricated": true,
+    "confidence": 0.5,
+    "unsupported_spans": [
+      "falta de contexto para entender a pol\u00edtica de gates",
+      "interface poderia fornecer mais informa\u00e7\u00f5es sobre as pol\u00edticas de gates"
+    ],
+    "rationale": "Some claims are supported by the UI snapshot, but others are not. The UI snapshot shows the 'Gate status' section with a PASS/WARN/FAIL indicator, which contrad",
+    "friction_points": [
+      "navigation: falta de contexto para entender a pol\u00edtica de gates"
+    ],
+    "feedback": "A interface poderia fornecer mais informa\u00e7\u00f5es sobre as pol\u00edticas de gates.",
+    "suggested_fix": "Adicionar uma se\u00e7\u00e3o com explica\u00e7\u00f5es das pol\u00edticas de gates."
+  },
+  {
+    "run_id": "ablation_ux_cq_v3_hybrid_sts_auto_n2_t07_20260127_121131",
+    "simulation_id": "ux_sim_20260127_183811_0021",
+    "fabricated": true,
+    "confidence": 0.8,
+    "unsupported_spans": [
+      "No clear indication of baseline run selected",
+      "Need clearer guidance on selecting baseline and candidate runs."
+    ],
+    "rationale": "Claims about friction points are supported by UI snapshot text, but some claims about guidance and suggested fixes require more context.",
+    "friction_points": [
+      "navigation: No clear indication of baseline run selected"
+    ],
+    "feedback": "Need clearer guidance on selecting baseline and candidate runs.",
+    "suggested_fix": "Add dropdown hints for baseline and candidate runs."
+  },
+  {
+    "run_id": "ablation_ux_cq_v3_wts_auto_n2_t07_20260127_121131",
+    "simulation_id": "ux_sim_20260127_174847_0037",
+    "fabricated": true,
+    "confidence": 0.8,
+    "unsupported_spans": [
+      "No data yet"
+    ],
+    "rationale": "The UI snapshot shows a 'Release dashboard' with various metrics and charts, but the candidate output mentions 'No data yet' as a friction point. This claim is ",
+    "friction_points": [
+      "navigation: No data yet"
+    ],
+    "feedback": "Simplifying filters would improve usability.",
+    "suggested_fix": "Filtering by dataset and top-k"
+  },
+  {
+    "run_id": "ablation_ux_cq_v3_wts_auto_n2_t07_20260127_121131",
+    "simulation_id": "ux_sim_20260127_174847_0013",
+    "fabricated": true,
+    "confidence": 0.8,
+    "unsupported_spans": [
+      "friction_point: navigation:No data to compare",
+      "step_1_friction: navigation:No data to compare"
+    ],
+    "rationale": "Claims about friction points are not supported by the UI snapshot text.",
+    "friction_points": [
+      "navigation:No data to compare"
+    ],
+    "feedback": "Uma sugest\u00e3o poderia ser que os dados sejam mais f\u00e1ceis de comparar.",
+    "suggested_fix": "Melhorar a interface para apresenta\u00e7\u00e3o de dados"
+  }
+]

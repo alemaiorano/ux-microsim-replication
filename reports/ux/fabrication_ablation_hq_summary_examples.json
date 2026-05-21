@@ -1,0 +1,152 @@
+[
+  {
+    "run_id": "ablation_ux_hq_v2_hybrid_n2_t03_20260127_073714",
+    "simulation_id": "ux_sim_20260127_110620_0010",
+    "fabricated": true,
+    "confidence": 0.8,
+    "unsupported_spans": [
+      "Thresholds could be more intuitive.",
+      "Add tooltips or explanations for each slider."
+    ],
+    "rationale": "Claims about UI elements (threshold sliders) are not supported by the UI snapshot text.",
+    "friction_points": [
+      "navigation: threshold sliders unclear"
+    ],
+    "feedback": "Thresholds could be more intuitive.",
+    "suggested_fix": "Add tooltips or explanations for each slider."
+  },
+  {
+    "run_id": "ablation_ux_hq_v2_hybrid_n2_t03_20260127_073714",
+    "simulation_id": "ux_sim_20260127_110620_0004",
+    "fabricated": true,
+    "confidence": 1.0,
+    "unsupported_spans": [
+      "sentiment: neutral"
+    ],
+    "rationale": "No claim about sentiment is supported by the UI snapshot.",
+    "friction_points": [],
+    "feedback": "",
+    "suggested_fix": ""
+  },
+  {
+    "run_id": "ablation_ux_hq_v2_single_20260127_073714",
+    "simulation_id": "ux_sim_20260127_103714_0015",
+    "fabricated": true,
+    "confidence": 1.0,
+    "unsupported_spans": [
+      "sentiment: neutral"
+    ],
+    "rationale": "No claim about sentiment is supported by the UI snapshot.",
+    "friction_points": [],
+    "feedback": "",
+    "suggested_fix": ""
+  },
+  {
+    "run_id": "ablation_ux_hq_v2_single_20260127_073714",
+    "simulation_id": "ux_sim_20260127_103714_0016",
+    "fabricated": true,
+    "confidence": 1.0,
+    "unsupported_spans": [
+      "sentiment: neutral"
+    ],
+    "rationale": "No claim about sentiment is supported by the UI snapshot.",
+    "friction_points": [],
+    "feedback": "",
+    "suggested_fix": ""
+  },
+  {
+    "run_id": "ablation_ux_hq_v2_wts_n2_t03_20260127_073714",
+    "simulation_id": "ux_sim_20260127_120650_0031",
+    "fabricated": true,
+    "confidence": 0.8,
+    "unsupported_spans": [
+      "friction_point: navigation: unclear threshold sliders",
+      "step_1_friction: navigation: unclear threshold sliders"
+    ],
+    "rationale": "Claimed friction point and step 1 friction are supported by the UI snapshot, but the suggested fix is not. The UI snapshot shows threshold sliders, so the frict",
+    "friction_points": [
+      "navigation: unclear threshold sliders"
+    ],
+    "feedback": "Threshold sliders could be more intuitive.",
+    "suggested_fix": "Add tooltips for threshold sliders"
+  },
+  {
+    "run_id": "ablation_ux_hq_v2_wts_n2_t03_20260127_073714",
+    "simulation_id": "ux_sim_20260127_120650_0006",
+    "fabricated": true,
+    "confidence": 0.8,
+    "unsupported_spans": [
+      "falta de informaci\u00f3n sobre el sistema",
+      "La plataforma es f\u00e1cil de usar, pero la documentaci\u00f3n podr\u00eda ser mejor."
+    ],
+    "rationale": "The UI snapshot does not contain information about the suggested fixes or friction points. The sentiment analysis is also neutral, which contradicts the feedbac",
+    "friction_points": [
+      "navigation: falta de informaci\u00f3n sobre el sistema"
+    ],
+    "feedback": "La plataforma es f\u00e1cil de usar, pero la documentaci\u00f3n podr\u00eda ser mejor.",
+    "suggested_fix": "Agregar secciones de ayuda y tutoriales para nuevos usuarios."
+  },
+  {
+    "run_id": "ablation_ux_hq_v3_hybrid_sts_auto_n2_t03_20260127_073714",
+    "simulation_id": "ux_sim_20260127_140630_0019",
+    "fabricated": true,
+    "confidence": 0.8,
+    "unsupported_spans": [
+      "falta de contexto para entender a pol\u00edtica",
+      "Muito \u00fatil, mas seria bom ter mais op\u00e7\u00f5es de filter nas tabelas."
+    ],
+    "rationale": "Claims about suggested fixes and friction points are not supported by the UI snapshot text.",
+    "friction_points": [
+      "navigation: falta de contexto para entender a pol\u00edtica"
+    ],
+    "feedback": "Muito \u00fatil, mas seria bom ter mais op\u00e7\u00f5es de filter nas tabelas.",
+    "suggested_fix": "Adicionar mais op\u00e7\u00f5es de filtro nas tabelas"
+  },
+  {
+    "run_id": "ablation_ux_hq_v3_hybrid_sts_auto_n2_t03_20260127_073714",
+    "simulation_id": "ux_sim_20260127_140630_0021",
+    "fabricated": true,
+    "confidence": 0.5,
+    "unsupported_spans": [
+      "navigation: unclear gate thresholds",
+      "Thresholds could be more intuitive."
+    ],
+    "rationale": "Some claims are not supported by the UI snapshot text, but they do not contain fabricated information. The friction points mentioned in the candidate output are",
+    "friction_points": [
+      "navigation: unclear gate thresholds"
+    ],
+    "feedback": "Thresholds could be more intuitive.",
+    "suggested_fix": "Add tooltips for threshold explanations"
+  },
+  {
+    "run_id": "ablation_ux_hq_v3_wts_auto_n2_t03_20260127_073714",
+    "simulation_id": "ux_sim_20260127_131348_0037",
+    "fabricated": true,
+    "confidence": 0.5,
+    "unsupported_spans": [
+      "short phrase"
+    ],
+    "rationale": "No clear indication of fabrication, but 'short phrase' is not supported by the UI snapshot text.",
+    "friction_points": [
+      "navigation:insufficient_dataset"
+    ],
+    "feedback": "Easy to compare runs, but no clear summary.",
+    "suggested_fix": "Add plain language summaries for each run."
+  },
+  {
+    "run_id": "ablation_ux_hq_v3_wts_auto_n2_t03_20260127_073714",
+    "simulation_id": "ux_sim_20260127_131348_0013",
+    "fabricated": true,
+    "confidence": 0.5,
+    "unsupported_spans": [
+      "No clear indication of current run's status",
+      "Simpler UI would improve user experience."
+    ],
+    "rationale": "Some claims are not supported by the UI snapshot text, but they do not contain fabricated information. The friction points mentioned in step_1_action and step_2",
+    "friction_points": [
+      "navigation: No clear indication of current run's status"
+    ],
+    "feedback": "Simpler UI would improve user experience.",
+    "suggested_fix": "Add a loading indicator for run status updates"
+  }
+]

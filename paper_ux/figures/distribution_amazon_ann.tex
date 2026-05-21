@@ -1,0 +1,24 @@
+\begin{tikzpicture}
+\begin{axis}[
+ybar,
+bar width=7pt,
+width=0.98\linewidth,
+height=0.42\linewidth,
+ylabel={Proportion of friction mass},
+symbolic x coords={latency,errors,configuration,copy_clarity,navigation,policy_gate,comparison,search},
+xtick=data,
+xticklabels={latency,errors,configuration,copy clarity,navigation,policy gate,comparison,search},
+xticklabel style={font=\scriptsize, rotate=25, anchor=east},
+tick label style={font=\small},
+label style={font=\small},
+ymin=0,
+ymax=0.47,
+grid=major,
+legend style={font=\small, at={(0.02,0.98)}, anchor=north west},
+]
+\addplot[fill=teal!55, draw=teal!80] coordinates {(latency,0.0000) (errors,0.0000) (configuration,0.0000) (copy_clarity,0.0000) (navigation,0.0000) (policy_gate,0.0000) (comparison,0.0000) (search,0.0000)};
+\addlegendentry{Simulations (lexical map)}
+\addplot[fill=gray!35, draw=gray!60] coordinates {(latency,0.3888) (errors,0.2297) (configuration,0.1736) (copy_clarity,0.1087) (navigation,0.0508) (policy_gate,0.0200) (comparison,0.0144) (search,0.0099)};
+\addlegendentry{Proxy (Amazon ann.; lexical map)}
+\end{axis}
+\end{tikzpicture}

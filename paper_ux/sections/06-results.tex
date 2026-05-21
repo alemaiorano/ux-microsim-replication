@@ -1,0 +1,132 @@
+\subsection{Alignment results}
+\IfFileExists{paper_ux/tables/alignment_main.tex}{\input{paper_ux/tables/alignment_main.tex}}{}
+\UXResolve{\uxalignpdf}{figures/alignment_plot.pdf}
+\ifx\uxalignpdf\empty
+  \UXResolve{\uxaligntex}{figures/alignment_plot.tex}
+  \ifx\uxaligntex\empty\else
+  \begin{figure}[t]
+    \centering
+    \resizebox{0.98\linewidth}{!}{\input{\uxaligntex}}
+    \caption{Proxy alignment by dataset and method (weighted-Jaccard; higher is better).}
+    \label{fig:alignment}
+  \end{figure}
+  \fi
+\else
+  \begin{figure}[t]
+    \centering
+    \includegraphics[width=0.98\linewidth]{\uxalignpdf}
+    \caption{Proxy alignment by dataset and method (weighted-Jaccard; higher is better).}
+    \label{fig:alignment}
+  \end{figure}
+\fi
+
+Across our main proxy corpora (app reviews and support tweets), \MethodEmbed{} produces higher weighted-Jaccard overlap than lexical or TF-IDF baselines (Figure~\ref{fig:alignment}), suggesting that
+multilingual semantic similarity is better aligned with our friction taxonomy than keyword matching.
+However, absolute overlaps remain modest (Table~\ref{tab:alignment-main}), which is expected: proxy corpora are noisy mixtures of domains and user populations,
+while simulation outputs are constrained by our prompt and taxonomy.
+In OSS issue proxies, we observe exceptions where lexical overlap can exceed embedding overlap (see discussion below), so we treat the embedding advantage as a tendency rather than a universal guarantee.
+
+\paragraph{Interpreting overlap (example).}
+\UXResolve{\uxdistpdf}{figures/distribution_amazon_ann.pdf}
+\ifx\uxdistpdf\empty
+  \UXResolve{\uxdisttex}{figures/distribution_amazon_ann.tex}
+  \ifx\uxdisttex\empty\else
+  \begin{figure}[t]
+    \centering
+    \input{\uxdisttex}
+    \caption{Friction-theme distributions for simulations vs proxy corpus (Amazon annotated; lexical mapping; top 8 categories). The simulation bars are near-zero because lexical keyword matching fails to match the structured taxonomy-prefixed outputs produced by the v2 prompt---this is an intentional diagnostic: it shows that lexical alignment is insufficient for simulation outputs, motivating the embedding baseline.}
+    \label{fig:distribution-example}
+  \end{figure}
+  \fi
+\else
+  \begin{figure}[t]
+    \centering
+    \includegraphics[width=0.98\linewidth]{\uxdistpdf}
+    \caption{Friction-theme distributions for simulations vs proxy corpus (Amazon annotated; lexical mapping; top 8 categories). The simulation bars are near-zero because lexical keyword matching fails to match the structured taxonomy-prefixed outputs produced by the v2 prompt---this is an intentional diagnostic: it shows that lexical alignment is insufficient for simulation outputs, motivating the embedding baseline.}
+    \label{fig:distribution-example}
+  \end{figure}
+\fi
+The goal is not to achieve perfect distributional match; rather, Figure~\ref{fig:distribution-example} helps diagnose \emph{where} simulations and proxies diverge.
+Note that the aggregate $W$ values in Table~\ref{tab:alignment-main} are computed from category-level counts accumulated across the full proxy corpus under a shared taxonomy, and may differ from the per-run distribution bars shown here.
+The sensitivity rows in Table~\ref{tab:alignment-sensitivity} were executed on a separate simulation pool dedicated to sweeping $k$ and threshold settings, which is why their absolute $W$ values for the same proxy/method pair (e.g., \DatasetAmazonAnn{} lexical, $W=0.017$) can differ slightly from the canonical entry in Table~\ref{tab:alignment-main} ($W=0.013$); we treat Table~\ref{tab:alignment-main} as the canonical reference and use the sensitivity rows only for relative comparisons across $k$ and thresholds.
+
+\paragraph{Key takeaways.}
+\begin{itemize}
+  \item \MethodEmbed{} typically yields higher $W$ than \MethodLex{} on our primary proxies, making it a strong default under a fixed taxonomy.
+  \item $J_k$ is useful for quick inspection but can mislead under thresholding or large $k$; we treat $W$ as the primary signal.
+  \item The goal is not to ``prove UX quality'' but to enable early-stage iteration with auditable artifacts and bounded claims.
+\end{itemize}
+
+\paragraph{What a consumer can do with these results.}
+In practice, the main value is comparative and diagnostic: a team can compare prompt/taxonomy versions (or model settings)
+and see whether friction distributions move in the expected direction across proxies, rather than relying on anecdotes.
+The same artifacts also support a pragmatic workflow: pick the top-$k$ friction themes to tackle, ship a change, and rerun the pipeline to check
+whether the proxy-aligned distribution shifts (and whether the shift is stable under bootstrap intervals).
+
+\paragraph{B2B proxy (OSS issues).}
+On GitHub issues from observability repositories, embedding-based alignment tends to outperform lexical matching (Table~\ref{tab:alignment-oss}).
+\IfFileExists{paper_ux/tables/alignment_oss.tex}{\input{paper_ux/tables/alignment_oss.tex}}{}
+While these proxies are not controlled UX studies, they broaden the evidence beyond app reviews and help stress-test whether our taxonomy and prompts
+generalize to B2B tooling discussions.
+We also observe failure modes: for some repositories (e.g., Sentry in our selection), lexical overlap can exceed embedding overlap,
+suggesting that issue text may be dominated by product-specific vocabulary that semantic embeddings smooth over.
+
+We also observe that top-$k$ Jaccard can be misleading when $k$ is too large (Table~\ref{tab:alignment-sensitivity}).
+In particular, lexical $J_k$ reaches 1.0 at $k=10$ on the Amazon annotated proxy while weighted-Jaccard remains unchanged,
+supporting our choice to emphasize $W$ for distributional comparisons and to keep $k$ smaller than the taxonomy size.
+
+\subsection{Bootstrap confidence intervals}
+\label{sec:results-bootstrap}
+\IfFileExists{paper_ux/tables/bootstrap_ci.tex}{\input{paper_ux/tables/bootstrap_ci.tex}}{}
+\UXResolve{\uxbootpdf}{figures/bootstrap_ci_plot.pdf}
+\ifx\uxbootpdf\empty
+  \UXResolve{\uxboottex}{figures/bootstrap_ci_plot.tex}
+  \ifx\uxboottex\empty\else
+  \begin{figure}[t]
+    \centering
+    \input{\uxboottex}
+    \caption{Bootstrap confidence interval for weighted-Jaccard on Amazon low-rated (lexical).}
+    \label{fig:bootstrap-ci}
+  \end{figure}
+  \fi
+\else
+  \begin{figure}[t]
+    \centering
+    \includegraphics[width=0.72\linewidth]{\uxbootpdf}
+    \caption{Bootstrap confidence interval for weighted-Jaccard on Amazon low-rated (lexical).}
+    \label{fig:bootstrap-ci}
+  \end{figure}
+\fi
+Bootstrap intervals (Table~\ref{tab:bootstrap-ci}; visualized in Figure~\ref{fig:bootstrap-ci}) are tight for the Amazon low-rated proxy under the lexical baseline, suggesting that the aggregate category distribution is stable at this scale for our chosen taxonomy. Table~\ref{tab:bootstrap-ci-multi} extends this to $8$ method--dataset pairs in total: lexical on \DatasetAmazon, \DatasetTinder, and \DatasetGojek; TF-IDF on \DatasetAmazon{} and \DatasetAmazonAnn; and embedding (BGE-M3) on \DatasetAmazon, \DatasetTinder, and \DatasetGojek. Two observations follow: (i)~lexical and TF-IDF baselines on app-review proxies yield $W$ means rounding to $0$ with CIs $[0,0]$, which is "stable at zero" rather than "aligned"---i.e., these baselines deterministically fail to align under bootstrap resampling, consistent with the point estimates in Table~\ref{tab:alignment-main}; (ii)~$J_k$ on Tinder and Gojek shows mild but non-zero variance (CI width $\approx 0.18$) because top-$k$ set membership flickers near the boundary, while $W$ remains numerically zero, reinforcing that $J_k$ overstates alignment when the underlying mass overlap is negligible (the same effect documented in H2). The three embedding configurations are discussed under H3 below.
+\IfFileExists{paper_ux/tables/bootstrap_ci_multi.tex}{\input{paper_ux/tables/bootstrap_ci_multi.tex}}{}
+
+\subsection{Failure-mode analysis: examples flagged as fabricated}
+To make the grounding/fabrication proxies (Section~\ref{sec:limitations}) concrete, Table~\ref{tab:fabrication-examples} lists representative outputs that the adversarial judge flagged as fabricated, including the unsupported span and rationale. We note that the adversarial judge is intentionally one-sided---it emits items only when unsupported spans are detected---so every row is a positive case by construction; non-fabricated counterfactuals are not produced by this pass. This view is complementary to the aggregate hallucination/fabrication rates in Tables~\ref{tab:agent-ablation-hq} and~\ref{tab:agent-ablation-cq}: the aggregate rates are conservative lower bounds (stop-list induced), while the worked examples illustrate which kinds of friction phrasings the proxy actually catches.
+\IfFileExists{paper_ux/tables/fabrication_examples.tex}{\input{paper_ux/tables/fabrication_examples.tex}}{}
+
+\subsection{Azure provider agent-ablation results}
+Tables~\ref{tab:agent-ablation-hq} and \ref{tab:agent-ablation-cq} report the reduced ablation suites across three OpenAI deployments on Azure (\texttt{gpt-4.1}, \texttt{gpt-4.1-mini}, \texttt{gpt-5.2}).
+\begin{itemize}
+  \item \emph{Model sensitivity.} Under the same prompt/schema contract, \texttt{gpt-4.1} is strongest on quality (HQ hybrid-LLM quality $0.707$; CQ hybrid-auto and best-of-$N$ auto both at $0.726$), \texttt{gpt-4.1-mini} is consistently lower but still functional, and \texttt{gpt-5.2} collapses to near-degenerate behavior across every condition we ran (prefix rate $0$, grounding $0$, fabrication proxy $1.0$). The \texttt{gpt-5.2} failure is the only reproducible model-level breakdown we observed.
+  \item \emph{Transient failure documented and re-measured.} An initial CQ batch for \texttt{gpt-4.1} (candidate temperature $0.7$, LLM judge) produced degenerate outputs (quality $0.4$, prefix $0$) on the hybrid and best-of-$N$ conditions. We re-executed those conditions with the identical configuration and \emph{the same model converged to non-degenerate behavior} (quality $0.71$--$0.73$, prefix $0.57$--$0.60$); the ablation tables report this latest measurement per condition. We therefore attribute the original CQ-v2 LLM-judge failures on \texttt{gpt-4.1} to a transient API/scheduling artifact, not a structural condition-specific failure of the prompt contract. The \texttt{gpt-5.2} collapse, in contrast, reproduced across batches and remains a real model-level failure.
+\end{itemize}
+The cost--quality frontier (Figure~\ref{fig:agent-ablation-pareto}) summarizes the resulting tradeoffs; auto-judge variants tend to dominate LLM-judge variants on cost without sacrificing quality, and the differences across models dwarf the differences across selection protocols. We report all conditions rather than filtering the \texttt{gpt-5.2} runs, because aggregate tables without model and condition labels would hide that breakdown.
+
+\subsection{LLM label evaluation}
+\IfFileExists{paper_ux/tables/appstore_eval.tex}{\input{paper_ux/tables/appstore_eval.tex}}{}
+On the annotated Amazon subset, \texttt{gpt-4.1} (Azure provider, same family as the main UX ablation) achieves moderate accuracy (Table~\ref{tab:appstore-eval}; accuracy $0.556$, macro-F1 $0.438$), consistent with uneven category difficulty and confusable labels (e.g., UX vs functionality). A cheap-baselines comparison (Table~\ref{tab:appstore-baselines}) sharpens the picture: an embedding + logistic-regression baseline (\texttt{nomic-embed-text}) attains higher accuracy ($0.635$) than the LLM, while the LLM still beats majority, lexical, and TF-IDF baselines on macro-F1. Table~\ref{tab:appstore-confusions} reports the most frequent label confusions and shows that the largest single error mode is \texttt{functionality\_features} being mapped to \texttt{ui\_ux}, which dominates the residual error budget.
+Together, these results motivate our focus on distribution-level proxy alignment rather than treating LLM category assignments as reliable ground truth at the single-example level.
+\IfFileExists{paper_ux/tables/appstore_baselines.tex}{\input{paper_ux/tables/appstore_baselines.tex}}{}
+\IfFileExists{paper_ux/tables/appstore_confusions.tex}{\input{paper_ux/tables/appstore_confusions.tex}}{}
+
+\subsection{Hypothesis evaluation}
+We close with an explicit mapping from our hypotheses (Section~1) to results.
+\textbf{H1} (embedding outperforms lexical under $W$) is \textbf{supported}: embedding yields higher $W$ on all primary app-review and support-tweet proxies
+(e.g., Gojek: $W_\text{embed}=0.128$ vs $W_\text{lex}=0.000$; Amazon Low-rated: $W_\text{embed}=0.119$ vs $W_\text{lex}=0.009$).
+The exception is Sentry OSS issues ($W_\text{lex}=0.138 > W_\text{embed}=0.072$), consistent with H1's ``tendency rather than universal'' framing.
+
+\textbf{H2} ($J_k$ saturates and overstates alignment at large $k$) is \textbf{supported}: on the Amazon annotated proxy, lexical $J_k$ jumps from $0.333$ at $k=6$ to $1.0$ at $k=10$ while the weighted-Jaccard $W$ stays flat at $0.017$ across the same sensitivity sweep (canonical $W=0.013$ at $k=8$ in Table~\ref{tab:alignment-main}). $J_k$ is therefore misleading once $k$ approaches the taxonomy size.
+
+\textbf{H3} (aggregate estimates are stable enough for iterative decision-making when reported with CIs) is \textbf{partially supported, with a systematic caveat about embedding-based $W$}. The multi-configuration bootstrap (Table~\ref{tab:bootstrap-ci-multi}; 200 iterations for lexical/TF-IDF, 50 for embedding) covers $8$ method--dataset pairs. Lexical and TF-IDF baselines on app-review proxies produce stable aggregate estimates: their $J_k$ CIs are zero-width or near-zero (top-$k$ set membership rarely changes under resampling), and their $W$ CIs are tight, often pinned at zero (deterministic non-alignment). For the lexical baseline on Amazon low-rated specifically, $W=0.0107$ with CI $[0.0104, 0.0112]$, indicating high stability at scale.
+
+The embedding baseline (BGE-M3, 50 bootstrap iterations at $n=200$) tells a consistent and contrary story across all three proxies we ran. Its $J_k$ mean lands in $[0.77, 0.80]$ with tight CIs at $0.778$, but $W$ collapses to $0$ across all 50 iterations on \DatasetAmazon, \DatasetTinder, and \DatasetGojek alike---in sharp contrast to the single-shot point estimates of $W=0.119$, $0.087$, and $0.128$ respectively reported in Table~\ref{tab:alignment-main}. The three-way replication makes it implausible that the gap is a single-dataset anomaly: the embedding $W$ point estimates at this subsample size are \emph{systematically} unstable under bootstrap resampling. Practitioners should therefore report bootstrap CIs alongside any embedding-based alignment number before treating it as a target. In sum, H3 holds for lexical and TF-IDF baselines and for $J_k$ under embedding, but is \emph{contradicted} for embedding-based $W$ at this subsample size; characterizing the dependence on subsample size, anchor construction, and similarity threshold is left as future work.

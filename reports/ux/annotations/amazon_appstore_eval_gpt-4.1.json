@@ -1,0 +1,71 @@
+{
+  "records_total": 500,
+  "records_used": 500,
+  "skipped_empty": 0,
+  "unknown_gold": 0,
+  "invalid_json": 1,
+  "accuracy": 0.556,
+  "macro_f1": 0.4375,
+  "model": "gpt-4.1",
+  "sample_n": 500,
+  "labels": [
+    "compatibility_device",
+    "functionality_features",
+    "performance_stability",
+    "security_privacy",
+    "support_responsiveness",
+    "ui_ux",
+    "other"
+  ],
+  "per_label": [
+    {
+      "label": "compatibility_device",
+      "support": 51,
+      "precision": 0.47058823529411764,
+      "recall": 0.3137254901960784,
+      "f1": 0.3764705882352941
+    },
+    {
+      "label": "functionality_features",
+      "support": 216,
+      "precision": 0.6083333333333333,
+      "recall": 0.6759259259259259,
+      "f1": 0.6403508771929824
+    },
+    {
+      "label": "performance_stability",
+      "support": 136,
+      "precision": 0.743801652892562,
+      "recall": 0.6617647058823529,
+      "f1": 0.7003891050583657
+    },
+    {
+      "label": "security_privacy",
+      "support": 8,
+      "precision": 0.4,
+      "recall": 0.25,
+      "f1": 0.3076923076923077
+    },
+    {
+      "label": "support_responsiveness",
+      "support": 35,
+      "precision": 0.38461538461538464,
+      "recall": 0.14285714285714285,
+      "f1": 0.20833333333333331
+    },
+    {
+      "label": "ui_ux",
+      "support": 54,
+      "precision": 0.4418604651162791,
+      "recall": 0.35185185185185186,
+      "f1": 0.3917525773195876
+    },
+    {
+      "label": "other",
+      "support": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    }
+  ]
+}
